@@ -58,10 +58,42 @@ void printMap(const MapInt& mapInt)
     }
 }
 
-bool query(const MapInt& m, int k, int element)
+bool query(const MapInt& m, int k, size_t& element)
 {
-    cout << m.at(k);
-    return false;
+    MapInt::const_iterator exist = m.find(k);
+    if (exist == m.end())
+    {
+        return false;
+    }
+    else
+    {
+        element = exist->second;
+        // element = (*exist).second;
+        return true;
+    }
+}
+
+void addNumber(MapInt& m, int k)
+{
+    for(MapInt::iterator it = m.begin(); it != m.end(); it++)
+    {
+        it->second += k;
+    }
+}
+
+void eraseNegative(MapInt& m)
+{
+    for(MapInt::iterator it = m.begin(); it != m.end();)
+    {
+        if (it->second < 50)
+        {
+            it = m.erase(it);
+        }
+        else
+        {
+            ++it;
+        }
+    }
 }
 
 bool comp(int a, int b)
@@ -87,7 +119,13 @@ int main()
 //    printVec(vector);
     MapInt mapInt = createMap(vector);
     printMap(mapInt);
-    query(mapInt, 7, q);
-
+    size_t a = 0;
+    if (query(mapInt, 3, a))
+        cout << a << '\n';
+    addNumber(mapInt, -350);
+    printMap(mapInt);
+    eraseNegative(mapInt);
+    cout << '\n';
+    printMap(mapInt);
     return 0;
 }
