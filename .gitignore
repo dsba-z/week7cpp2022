@@ -76,3 +76,5 @@ build*
 
 *.css
 .vscode
+task_2.cpp
+code/src/main
