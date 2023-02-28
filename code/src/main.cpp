@@ -52,6 +52,36 @@ MapInt creatMap(const VecInt& vec)
     return mapp;
 }
 
+
+bool query(const std::map<int, size_t>& m, int k, size_t& element)
+{
+    if (m.count(k) > 0)
+    {
+        element = m.at(k);
+        return true;
+    }
+
+    else
+        return false;
+}
+
+
+void increaser(std::map<int, size_t>& m, int k)
+{
+    for (std::map<int, size_t>::iterator it = m.begin(); it != m.end(); it++)
+        it->second += k;
+
+}
+
+
+void negat(std::map<int, size_t>& m)
+{
+    for (std::map<int, size_t>::iterator it = m.begin(); it != m.end(); it++)
+    {
+      
+    }
+}
+
 void printMap(const MapInt& mapInt)
 {
     for (std::pair<int, size_t> i : mapInt)
@@ -90,6 +120,7 @@ int main()
     int n = 10;
     int r = 1;
     int q = 5;
+    size_t s = 3;
 
     // cin >> n >> r >> q;
     VecInt vecInt = generateVector(n, r, q);
@@ -99,6 +130,16 @@ int main()
 
     MapInt mapInt = creatMap(vecInt);
     printMap(mapInt);
+
+    cout << '\n';
+
+    query(mapInt, 1, s);
+    cout << s << '\n';
+
+    increaser(mapInt, 3);
+    cout << '\n';
+    printMap(mapInt);
+
 
     return 0;
 }
