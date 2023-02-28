@@ -6,15 +6,30 @@
 #include <algorithm>
 #include <set>
 
+
 using std::cout;
 using std::cin;
 using std::endl;
 
 
+
 typedef std::vector<int> VecInt;
 using MapInt = std::map<int, size_t>;
 // Generating random numbers:
-
+bool query(const MapInt& m, int k, size_t& element)
+{
+    MapInt::const_iterator f = m.find(k);
+    if (f == m.end())
+    {
+        return false;
+    }
+    else
+    {
+        // element = (*f).second; the same as 
+        element = f->second;
+        return true;
+    }
+}
 
 VecInt generateVector(size_t n, int rangeStart, int rangeEnd)
 {   
@@ -91,7 +106,22 @@ void printMap(const MapInt& mapInt)
         cout << i;
     }
 }
+void modifyMap(MapInt& map, int x)
+{
+    for (MapInt::iterator i = map.begin(); i != map.end(); i++)
+        i->second += x;
+}
 
+void eraseMap(MapInt& map)
+{
+    for (MapInt::iterator i = map.begin(); i != map.end();)
+    {   
+        if (i->second <= 5)
+            i = map.erase(i);
+        else 
+            i++;
+    }
+}
 
 
 
@@ -99,9 +129,9 @@ int main()
 {
     
     cout << "Enter three integers: n, r, q\n";
-    int n(10);
+    int n(25);
     int r(1);
-    int q(4);
+    int q(7);
     
     // cin >> n >> r >> q;
 
@@ -114,16 +144,23 @@ int main()
 
     // createMap(vector);
 
-    // MapInt map = createMap(vector);
-    // printMap(map);
-    for (int i:sett)
-    {
-        cout << i << '\t';
-
-    }
-
+    MapInt map = createMap(vector);
+    printMap(map);
     cout << '\n';
+    size_t element(0);
+    if (query(map, 1, element))
+        cout << element << '\n';
+    else
+        cout << "we do not have such element:(\n";
+    // for (int i:sett)
+    // {
+    //     cout << i << '\t';
 
+    // }
+    
+    // modifyMap(map, 20);
+    eraseMap(map);
+    printMap(map);
 
     return 0;
 }
