@@ -15,6 +15,9 @@ using std::endl;
 
 typedef std::vector<int> VecInt;
 using MapInt = std::map<int, size_t>;
+using MapBool = std::map<int, bool>;
+using SetInt = std::set<int>;
+using SupaMap = std::multimap<int, size_t>;
 // Generating random numbers:
 bool query(const MapInt& m, int k, size_t& element)
 {
@@ -123,22 +126,86 @@ void eraseMap(MapInt& map)
     }
 }
 
+// Exersize 2
+MapBool fillMap(const MapInt& map, int r, int q)
+{
+    MapBool map2;
+    for (int i(r); i <= q; i++)
+        map2.insert({i, map.find(i) == map.end() ? false : true});
+    // {
+    //     if (map.find(i) == map.end())
+    //         map2.insert({i, false});
+    //     else
+    //         map2.insert({i, true});
+    // }
+    // another method
 
+    return map2;
+}
+// complexity O(log(n))
+
+SetInt MapToSet(const MapBool& m)
+{
+    SetInt setic;
+    for (std::pair<int, bool> i: m)
+    {    
+        if (i.second)
+            setic.insert(i.first);
+    }    
+
+    return setic;
+}
+
+void printSet(const SetInt& set)
+{
+    for (int i:set)
+        cout << i << '\t';
+}
+
+bool isInSet(const SetInt& set, int value)
+{
+    return set.find(value) == set.end() ? false : true;
+}
+
+// exirsize 3
+
+SupaMap CreateSupaMap(const VecInt& vector)
+{   
+    SupaMap supaMapishe;
+    for (int i(0); i < vector.size(); i++)
+        supaMapishe.insert({vector[i], i});
+    
+    return supaMapishe;
+}
+
+void printRange(SupaMap mm, int start, int end)
+{   
+    SupaMap::iterator lower = mm.lower_bound(start);
+    SupaMap::iterator upper = mm.lower_bound(end);
+    for (; lower != upper; lower++)
+        cout << lower->first << '\t' << lower->second << '\n';     
+}
+
+void printRange(std::multimap<int, size_t> mm, int key)
+{
+    for (std::pair<SupaMap::iterator, SupaMap::iterator> range = mm.equal_range(key); range.first != range.second; range.first++)
+        cout << range.first->first << '\t' << range.first->second << '\n';
+}
 
 int main()
 {
     
     cout << "Enter three integers: n, r, q\n";
-    int n(25);
+    int n(100);
     int r(1);
-    int q(7);
+    int q(50);
     
     // cin >> n >> r >> q;
 
     VecInt vector = generateVector(n, r, q);
 
     std::multiset<int> sett(vector.begin(), vector.end());
-
+    SupaMap supaMapishe = CreateSupaMap(vector);
 
     printVec(vector);
 
@@ -159,8 +226,15 @@ int main()
     // }
     
     // modifyMap(map, 20);
-    eraseMap(map);
-    printMap(map);
+    // eraseMap(map);
+    // printMap(map);
 
+    MapBool map2 = fillMap(map, r, q);
+    SetInt setic = MapToSet(map2);
+    printSet(setic);
+    if (isInSet(setic, 43))
+        cout << "\nyes\n";
+    printRange(supaMapishe, 10, 20);
+    printRange(supaMapishe, 15);
     return 0;
 }
